@@ -3,6 +3,7 @@ package com.example.restdemo.rest;
 import com.example.restdemo.entity.Employee;
 import com.example.restdemo.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,5 +22,17 @@ public class EmployeeRestController {
     public List<Employee> getAllEmployees() {
         return employeeService.findAll();
     }
+
+    @GetMapping("/employees/{employeeId}")
+    public Employee getSingleEmployee(@PathVariable int id){
+
+       Employee theEmployee =  employeeService.findById(id);
+       if (theEmployee == null){
+           throw new RuntimeException("Employee Not Found->" + id);
+       }
+       return theEmployee;
+    }
+
+
 
 }
