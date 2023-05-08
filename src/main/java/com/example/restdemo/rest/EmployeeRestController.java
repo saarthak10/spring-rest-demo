@@ -2,10 +2,7 @@ package com.example.restdemo.rest;
 
 import com.example.restdemo.entity.Employee;
 import com.example.restdemo.service.EmployeeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +30,27 @@ public class EmployeeRestController {
        return theEmployee;
     }
 
+    @PostMapping("/employees")
+    public Employee saveEmployee(@RequestBody Employee theEmployee  ){
+        //set id to zero in case an Id is passed while submitting a new record.
+        theEmployee.setId(0);
+        return employeeService.save(theEmployee);
+    }
+
+    @PutMapping("/employees")
+    public Employee updateEmployee(@RequestBody Employee theEmployee){
+
+        return employeeService.save(theEmployee);
+    }
+    @DeleteMapping("/employees/{employeeId}")
+    public String updateEmployee(@PathVariable int employeeId){
+        Employee tempEmployee = employeeService.findById(employeeId);
+        if (tempEmployee == null){
+            throw new RuntimeException("Employee Id Not Found ---" + employeeId);
+        }
+         employeeService.delete(employeeId);
+        return "Employee Deleted Successfully";
+    }
 
 
 }
